@@ -67,7 +67,7 @@ END;
 
 //Sleep
 $sleep = <<<END
-    SELECT * FROM sleep2 
+    SELECT * FROM sleep 
     WHERE user_ID = $userid AND date >= current_date - 7  
     ORDER BY date ASC
 END;
