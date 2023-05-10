@@ -49,7 +49,7 @@ $date = date_create('Y-m-d');
 
 $array="";
 $sql = <<<END
-    SELECT * FROM sleep2 
+    SELECT * FROM sleep 
     WHERE user_ID = $userid AND date >= current_date - 7
     ORDER BY date ASC
 END;
@@ -85,7 +85,7 @@ if (isset($_POST['sleephours'])) {
   $hours   = $mysqli->real_escape_string($_POST['sleephours']);
   $sleepdate   = $mysqli->real_escape_string($_POST['sleepdate']);
   $query = <<<END
-  INSERT INTO sleep2(user_ID,value,date)
+  INSERT INTO sleep(user_ID,value,date)
   VALUES('$userid','$hours','$sleepdate')
 END;
   $mysqli->query($query);
