@@ -126,17 +126,10 @@ $workoutDate="";
 $burnedCalories="";
 
 $workoutquery = <<<END
-SELECT g.calories, g.date, g.value
-FROM gym AS g
-LEFT JOIN running AS r ON g.user_ID = r.user_ID AND g.date = r.date
-LEFT JOIN cycling_distance AS cd ON g.user_ID = cd.user_ID AND g.date = cd.date
-LEFT JOIN dancing AS d ON g.user_ID = d.user_ID AND g.date = d.date
-LEFT JOIN jumping_rope AS jr ON g.user_ID = jr.user_ID AND g.date = jr.date
-LEFT JOIN riding AS ri ON g.user_ID = ri.user_ID AND g.date = ri.date
-LEFT JOIN swimming AS s ON g.user_ID = s.user_ID AND g.date = s.date
-LEFT JOIN walked_distance AS wd ON g.user_ID = wd.user_ID AND g.date = wd.date
-WHERE g.user_ID = $userid AND g.date >= current_date - 7
-ORDER BY g.date ASC;
+SELECT *
+FROM gym
+WHERE user_ID = $userid AND date >= current_date - 7
+ORDER BY date ASC;
 
 END;
 $result = $mysqli->query($workoutquery);
