@@ -34,12 +34,17 @@
          </div>
       </div>
     <div class="content">
-        <h1>Admin</h1>
-        <p>Add user</p>
+    <h1>Administrator settings</h1>
+        <div class="login-box">
+
 <?php
 require_once('template.php');
+require_once('sessions.php');
 $adminid = $_SESSION["user_ID"];
 $thisuser = $_SESSION["username"];
+
+if (!isset($_SESSION["user_ID"]))
+    header("Location:landingpage.html");
 
 if (isset($_POST['username']) and isset($_POST['password'])) {
     $username   = $mysqli->real_escape_string($_POST['username']);
@@ -53,10 +58,11 @@ if (isset($_POST['username']) and isset($_POST['password'])) {
         INSERT INTO user(username, password, fname, lname, email, phone_nr)
         VALUES('{$username}','{$password}','{$firstname}','{$lastname}','{$email}','{$phonenr}');
 END;
-    if ($mysqli->query($query) !== TRUE) {
+$res = $mysqli->query($query);
+    if ($res !== TRUE) {
         die ("Could not add user." . $mysqli->errno . " : " . $mysqli->error);
     }
-    if ($mysqli->query($query) == TRUE) {
+    if ($res == TRUE) {
         echo "User added sucessfully";
     }
 }
@@ -69,39 +75,55 @@ if (isset($_POST['admin'])) {
         SET is_admin = 1
         WHERE username = '$admin'
 END;
-    if ($mysqli->query($query) !== TRUE) {
-        die ("Could not add asmin." . $mysqli->errno . " : " . $mysqli->error);
+$result = $mysqli->query($query);
+    if ($result !== TRUE) {
+        die ("Could not add admin." . $mysqli->errno . " : " . $mysqli->error);
     }
-    if ($mysqli->query($query) == TRUE) {
+    if ($result == TRUE) {
         echo "Admin added sucessfully";
     }
 }
 $content = <<<END
-    <form class="adduser" action="admin.php" method="POST">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required><br><br>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required><br><br>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required><br><br>
-            <label for="firstname">Firstname:</label>
-            <input type="text" id="firstname" name="firstname" required><br><br>
-            <label for="lastname">Lastname:</label>
-            <input type="text" id="lastname" name="lastname" required><br><br>
-            <label for="phonenumber">Phonenumber:</label>
-            <input type="text" id="phonenumber" name="phonenumber" required><br><br>
-            <br>
-            <button type="submit">Register</button>
-        </form>
-        <br>
-        <br>
-        <br>
-        <form class="admin" action="admin.php" method="POST">
-            <label for="admin">Add admin</label>
-            <input type="text" name="admin" placeholder="username" required><br><br> 
-            <br>
-            <button type="submit">Add admin</button>
-        </form>
+<h2>Add user</h2>
+<form action="admin.php" method="POST">
+<div class="user-box">
+    <input type="text" name="username" id="username" required>
+    <label for="username">Username:</label>
+</div>
+<div class="user-box">
+    <input type="password" name="password" id="password" required>
+    <label for="password">Password:</label>
+</div>
+<div class="user-box">
+    <input type="email" name="email" id="email" required>
+    <label for="email">Email:</label>
+</div>
+<div class="user-box">
+    <input type="text" name="firstname" id="firstname" required>
+    <label for="firstname">Firstname:</label>
+</div>
+<div class="user-box">
+    <input type="text" name="lastname" id="lastname" required>
+    <label for="lastname">Lastname:</label>
+</div>
+<div class="user-box">
+    <input type="text" name="phonenumber" id="phonenumber" required>
+    <label for="phonenumber">Phonenumber:</label>
+</div>
+<br>
+<input type="submit" value="Add user">
+</form>
+<br><br>
+<h2>Add administrator</h2>
+<form action="admin.php" method="POST">
+<div class="user-box">
+    <input type="text" name="admin" id="admin" required>
+    <label for="admin">Add as an admin:</label>
+</div>
+<br>
+<input type="submit" value="Add admin">
+</form>
+
 END;
 echo $content;
 require_once('footer.php');
