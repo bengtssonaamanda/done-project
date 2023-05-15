@@ -116,7 +116,7 @@ $content = <<<END
         <br>
         <br>
         <div class="user-box">
-        <label for="distance">Distance:</label>
+        <label for="distance">Workout durancy:</label>
         <input type="text" name="distance">
         </div>
         <br>
