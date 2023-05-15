@@ -14,6 +14,9 @@ $user       = "amavah22";
 $pwd        = "ZcDMC6NvjX";
 $db         = "amavah22_db"; 
 $mysqli     = new mysqli($host, $user, $pwd, $db);
+
+require_once('sessions.php');
+
 $navigation =<<<END
 <nav>
     <a href="about.php">About</a>
