@@ -83,6 +83,21 @@ $result = $mysqli->query($query);
         echo "Admin added sucessfully";
     }
 }
+if (isset($_POST['userdel'])) {
+    $userdel   = $mysqli->real_escape_string($_POST['userdel']);
+    
+    $delquery = <<<END
+        DELETE FROM user
+        WHERE username = '$userdel'
+END;
+$result1 = $mysqli->query($delquery);
+    if ($result1 !== TRUE) {
+        die ("Could not delete user." . $mysqli->errno . " : " . $mysqli->error);
+    }
+    if ($result1 == TRUE) {
+        echo "User deleted successfully";
+    }
+}
 $content = <<<END
 <h2>Add user</h2>
 <form action="admin.php" method="POST">
@@ -122,6 +137,15 @@ $content = <<<END
 </div>
 <br>
 <input type="submit" value="Add admin">
+</form>
+<h2>Delete user</h2>
+<form action="admin.php" method="POST">
+<div class="user-box">
+    <input type="text" name="userdel" id="uderdel" required>
+    <label for="userdel">Delete user with usename:</label>
+</div>
+<br>
+<input type="submit" value="Delete user">
 </form>
 
 END;
