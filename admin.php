@@ -147,7 +147,8 @@ $content = <<<END
 <br>
 <input type="submit" value="Delete user">
 </form>
-
+<button type="button"style="background-color: coral;"><a href="analytics.php"><span></span>Analytics</a></button>
+<button type="button"style="background-color: coral;"><a href="ipadress.php"><span></span>IP-statistic</a></button>
 END;
 echo $content;
 require_once('footer.php');
