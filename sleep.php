@@ -81,9 +81,17 @@ END;
 }
 // print_r($value2);
 // print_r($dateForNaps);
-if (isset($_POST['sleephours'])) {
-  $hours   = $mysqli->real_escape_string($_POST['sleephours']);
+if (isset($_POST['bedtime'])) {
+  $bedt   = $mysqli->real_escape_string($_POST['bedtime']);
+  $waket   = $mysqli->real_escape_string($_POST['wakeup_time']);
   $sleepdate   = $mysqli->real_escape_string($_POST['sleepdate']);
+  $bedtime = new DateTime($bedt);
+  $wakeuptime = new DateTime($waket);
+  
+  $diff = $bedtime->diff($wakeuptime);
+  $hours = $diff->h;
+  $minutes = $diff->i;
+  $seconds = $diff->s;
   $query = <<<END
   INSERT INTO sleep(user_ID,value,date)
   VALUES('$userid','$hours','$sleepdate')
@@ -110,8 +118,12 @@ END;
 $content = <<<END
    <form action="sleep.php" method="POST">
   <div class="user-box">
-    <input type="text" id="sleephours" name="sleephours" required>
-    <label for="sleephours">How many hours have you slept the previous night?</label>
+    <input type="time" id="bedtime" name="bedtime" required>
+    <label for="bedtime">When did you went to bed?</label>
+    </div>
+  <div class="user-box">
+    <input type="time" id="wakeup_time" name="wakeup_time" required>
+    <label for="wakeup_time">When did you wake up?</label>
   </div>
   <div class="user-box">
     <input type="date" id="sleepdate" name="sleepdate" required>
@@ -149,7 +161,7 @@ const value = <?php echo json_encode($value);?>;
 const data = {
     labels: sleepdate,
         datasets: [{
-            label: 'slept hours during the past week',
+            label: 'whole hours slept during the past week',
             data: value,
             borderWidth: 1
         }]
